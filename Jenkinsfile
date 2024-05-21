@@ -37,6 +37,7 @@ pipeline {
                     def certExists = sh(script: "test -f $CERT_PATH", returnStatus: true) == 0
                     if (certExists) {
                         echo -e "\e[1;43m Certificate already exists. \e[0m"
+                        currentBuild.result = 'SUCCESS' // Устанавливаем результат выполнения pipeline в SUCCESS
                     } else {
                         // Получение SSL сертификата
                         sh "echo $SUDO_PASS | sudo -S certbot certonly --nginx -d $SITE_ADDRESS -m $DOMAIN_EMAIL --agree-tos --non-interactive"
